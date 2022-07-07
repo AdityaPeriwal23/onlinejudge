@@ -1,0 +1,12 @@
+<h1>Aditya Periwal's online judge</h1>
+<h2>{{user.username}}</h2>
+<h3>List of problems</h3>
+{% if latest_problem_list %}
+    <ul>
+    {% for problem in latest_problem_list %}
+        <li><a href="/adiperiwal_oj/{{ problem.id }}/{{user.id}}/">{{ problem.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}

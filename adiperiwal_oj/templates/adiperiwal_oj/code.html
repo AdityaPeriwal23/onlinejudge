@@ -1,0 +1,8 @@
+<h1>{{ problem.name }}</h1>
+<h2>please include these 2 lines at the start of int main in your code: freopen ("output.txt","w",stdout); freopen ("input.txt","r",stdin);</h2>
+<form action="http://127.0.0.1:8000/adiperiwal_oj/{{problem.id}}/history/{{user.id}}/"  method="post">
+{% csrf_token %}
+<label for="{{ problem.submissions }}">{{ problem.submissions }}</label><br>
+<textarea name="mycode"></textarea>
+  <input type="submit" value="submit" >
+</form>
