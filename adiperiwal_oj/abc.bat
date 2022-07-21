@@ -1,0 +1,12 @@
+cd adiperiwal_oj
+docker cp data.cpp f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c:/data.cpp
+docker cp input.txt f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c:/input.txt
+docker cp output.txt f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c:/output.txt
+docker exec f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c g++ data.cpp
+docker exec f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c ./a.out
+docker exec f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c ./a.out <input.txt> output.txt
+docker cp f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c:/output.txt output.txt
+docker exec f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c rm -rf input.txt
+docker exec f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c rm -rf output.txt
+docker exec f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c rm -rf data.cpp
+docker exec f4b4aa7e6d4bf669bce8836a0a67589838a2a01f5401baee913c27c25e1b3d8c rm -rf a.out

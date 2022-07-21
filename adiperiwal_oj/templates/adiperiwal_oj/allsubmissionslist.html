@@ -1,0 +1,6 @@
+<h3>{{user.username}}'s submissions</h3>
+    <ul>
+    {% for submission in k %}
+        <li><a href="/adiperiwal_oj/{{ problem.id }}/particular/{{submission.id}}/{{user.id}}/">{{ submission.id }},{{submission.answer.name}},{{submission.sub_date}},{{submission.verdict}}</a></li>
+    {% endfor %}
+    </ul>
