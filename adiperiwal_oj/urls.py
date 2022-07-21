@@ -14,4 +14,5 @@ urlpatterns = [
     path('<int:problem_id>/code/<int:user_id>/', views.code, name='code'),
     path('<int:problem_id>/history/<int:user_id>/', views.history, name='history'),
     path('<int:problem_id>/particular/<int:submission_id>/<int:user_id>/', views.particular, name='particular'),
+    path('particular2/<int:submission_id>/<int:user_id>/', views.particular2, name='particular2'),    
 ]
