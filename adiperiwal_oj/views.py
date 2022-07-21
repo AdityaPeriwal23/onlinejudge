@@ -45,6 +45,17 @@ def index(request,user_id):
     latest_problem_list = Problem.objects.order_by('difficulty')
     return render(request, 'adiperiwal_oj/index.html', {'user':user,'latest_problem_list': latest_problem_list})
 
+def allsubmissionslist(request,user_id):
+    user=get_object_or_404(User, pk=user_id)
+    k=[]
+    x=0
+    for s in user.submissions_set.all():
+        x=x+1
+        if x&1:
+            k.append(s)
+    k.reverse()
+    return render(request, 'adiperiwal_oj/allsubmissionslist.html', {'k':k,'user':user})
+
 def detail(request, problem_id,user_id):
     user=get_object_or_404(User, pk=user_id)
     problem = get_object_or_404(Problem, pk=problem_id)
@@ -77,37 +88,33 @@ def history(request, problem_id,user_id):
     m=b.write(c.output_text)
     b.close()
     subprocess.call([r'E:/Adi_oj/adiperiwal_oj/abc.bat'])
-    d="E:/Adi_oj/adiperiwal_oj/output.txt"
+    b=open("E:/Adi_oj/adiperiwal_oj/output.txt", "r")
+    m=b.read()
+    b.close()
     e="E:/Adi_oj/adiperiwal_oj/expectedoutput.txt"
-    flag=0
-    try:
-        f=open("E:/Adi_oj/adiperiwal_oj/program.exe")
-    except IOError:
-        problem.submissions_set.create(qwerty=user,coder=a['mycode'],useroutput=e,sub_date=timezone.now(),verdict=False)
-        user.submissions_set.create(answer=problem,coder=a['mycode'],useroutput=e,sub_date=timezone.now(),verdict=False)
+    d="E:/Adi_oj/adiperiwal_oj/output.txt"
+    if filecmp.cmp(d, e, shallow = False)==True:
+        problem.submissions_set.create(qwerty=user,coder=a['mycode'],useroutput=m,sub_date=timezone.now(),verdict=True)
+        user.submissions_set.create(answer=problem,coder=a['mycode'],useroutput=m,sub_date=timezone.now(),verdict=True)
+        problem.solved_status=True
+    else:
+        problem.submissions_set.create(qwerty=user,coder=a['mycode'],useroutput=m,sub_date=timezone.now(),verdict=False)
+        user.submissions_set.create(answer=problem,coder=a['mycode'],useroutput=m,sub_date=timezone.now(),verdict=False)
         problem.solved_status=False
-        flag=1
-    finally:
-        if flag==0:
-            if filecmp.cmp(d, e, shallow = False)==True:
-                problem.submissions_set.create(qwerty=user,coder=a['mycode'],useroutput=e,sub_date=timezone.now(),verdict=True)
-                user.submissions_set.create(answer=problem,coder=a['mycode'],useroutput=e,sub_date=timezone.now(),verdict=True)
-                problem.solved_status=True
-            else:
-                problem.submissions_set.create(qwerty=user,coder=a['mycode'],useroutput=e,sub_date=timezone.now(),verdict=False)
-                user.submissions_set.create(answer=problem,coder=a['mycode'],useroutput=e,sub_date=timezone.now(),verdict=False)
-                problem.solved_status=False
-            subprocess.call([r'E:/Adi_oj/adiperiwal_oj/def.bat'])
+    b=open("E:/Adi_oj/adiperiwal_oj/output.txt", "w")
+    m=b.write("")
+    b.close()
     x=0
-    k=set()
+    k=[]
     for s in user.submissions_set.all():
         x=x+1
         if x&1:
-            k.add(s)
+            k.append(s)
+    k.reverse()
     return render(request, 'adiperiwal_oj/history.html', {'k':k,'user':user,'problem': problem})
 
 def particular(request,problem_id,submission_id,user_id):
     user=get_object_or_404(User, pk=user_id)
     problem = get_object_or_404(Problem, pk=problem_id)
-    submission= problem.submissions_set.get(id=submission_id)
+    submission= user.submissions_set.get(id=submission_id)
     return render(request, 'adiperiwal_oj/particular.html', {'submission':submission})
