@@ -118,3 +118,8 @@ def particular(request,problem_id,submission_id,user_id):
     problem = get_object_or_404(Problem, pk=problem_id)
     submission= user.submissions_set.get(id=submission_id)
     return render(request, 'adiperiwal_oj/particular.html', {'submission':submission})
+
+def particular2(request,submission_id,user_id):
+    user=get_object_or_404(User, pk=user_id)
+    submission= user.submissions_set.get(id=submission_id)
+    return render(request, 'adiperiwal_oj/particular.html', {'submission':submission})
